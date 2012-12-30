@@ -1,0 +1,19 @@
+#PBS -q class_long
+#PBS -l nodes=1:m2090
+#PBS -l walltime=05:00:00
+#PBS -N TSP_PROJECT
+
+export OMPI_MCA_mpi_yield_when_idle=0
+cd $PBS_O_WORKDIR
+
+echo "*** STARTED: `date` on `hostname` ***"
+echo $PWD
+cat $PBS_NODEFILE
+echo -e "\n\n"
+
+# Run the program
+mpirun --hostfile $PBS_NODEFILE -np 10 ./TSP
+
+echo "*** COMPLETED: `date` on `hostname` ***"
+
+# eof

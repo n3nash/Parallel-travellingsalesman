@@ -1,0 +1,54 @@
+
+Default Configuration : 
+
+	Number of Cities : 48
+	Number of MPI Nodes : 10
+	Number of Iterations : 2500
+
+To Run the Project On a GPU Node , follow the following steps :
+
+	1) Untar the folder hppc_report.tar.gz on the Jinx cluster.
+
+	Method 1:
+	
+	2) Run the script compile_script.sh to compile the project . Note : If the script does not compile, try to set the environment variables
+           to point to the correct path to the libraries. You could do ::  export PATH=/usr/bin:$PATH
+
+	3) Submit the pbs file : qsub TSP.pbs 
+
+ 	4) Note that if default parameters are changed (such as number of processes) , the globalData.h file needs to be updated with these val-           ues as well.
+
+
+	Method 2:
+	
+	2) Obtain a GPU node using the command (qsub -I -q class -l nodes=1:gpu -d $(pwd))
+
+	3) Run the script compile_script.sh to compile the project . Note : If the script does not compile, try to set the environment variables           to point to the correct path to the libraries. You could do ::  export PATH=/usr/bin:$PATH
+
+	4) After successfully compiling the script , run the executable via the following command : 
+		mpirun --hostfile nodename -np 10 ./TSP   (nodename is a file containing the current GPU jinx node number)
+
+	5) Note that if default parameters are changed (such as number of processes) , the globalData.h file needs to be updated with these val-	   ues as well.
+
+To change default parameters :
+
+	1) Untar the folder sample_data.tar.gz.
+	
+	2) Copy OPTTSP<numberofcities> file to OPTTSPTour.txt in the hppc_project folder. Copy TSPData<numberofcities> to TSPData.txt in the hp-           pc_project folder. 
+
+	3) Change the numMPINodes to <numberofNodes you want to run on> and NUM_CITIES to <numberofcities you want to run . (available cities d-	   ata {48 , 150 , 280 , 666} )
+
+	4) In the TSP.pbs change ( similarly for Method 2) :
+		mpirun --hostfile nodename -np <numberofMPINodes you entered in globalData.h file> ./TSP
+
+Output Generated (as shown in the report) :
+
+	1) Latency ( each iteration )
+
+	2) Bandwidth ( each iteration )
+
+	3) Distance of intermediate paths generated
+
+	4) Final Path and distance of the Path after N iterations
+
+	5) Actual Path and its distance
